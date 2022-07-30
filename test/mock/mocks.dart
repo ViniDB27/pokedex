@@ -4,13 +4,11 @@ import 'package:pokedex/src/modules/pokemon/domain/repositories/pokemon_reposito
 import 'package:pokedex/src/modules/pokemon/infra/datasources/pokemon_datasource.dart';
 import 'package:pokedex/src/modules/pokemon/domain/entities/pokemon_entity.dart';
 import 'package:pokedex/src/modules/pokemon/domain/entities/status_entity.dart';
-import 'package:pokedex/src/modules/pokemon/domain/entities/type_entity.dart';
 
 class PokemonRepositorySpy extends Mock implements PokemonRepository {}
 
 class PokemonDatasourceSpy extends Mock implements PokemonDatasource {}
 
-final type = PokeType(name: 'fire');
 final status = PokeStatus(
   life: 1,
   attack: 1,
@@ -27,12 +25,12 @@ final pokemon = Pokemon(
   weight: 1,
   height: 1,
   image: 'image',
-  types: [type],
+  types: ['fire'],
   move: 'move',
   status: status,
 );
 
-final pokemonListOfJson = [
+final List<Map<dynamic, dynamic>> pokemonListOfJson = [
   {
     'id': 1,
     'name': "name",
@@ -47,7 +45,14 @@ final pokemonListOfJson = [
       }
     },
     'types': [
-      {'name': 'fire'}
+      {
+        'type': {'name': 'fire'},
+      }
+    ],
+    'moves': [
+      {
+        'move': {'name': "bind"},
+      },
     ],
     'stats': [
       {'base_stat': 1},

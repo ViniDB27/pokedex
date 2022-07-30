@@ -1,6 +1,5 @@
 import '../../domain/entities/pokemon_entity.dart';
 import '../../domain/entities/status_entity.dart';
-import '../../domain/entities/type_entity.dart';
 
 class PokemonModel {
   final int id;
@@ -9,7 +8,7 @@ class PokemonModel {
   final double weight;
   final double height;
   final String image;
-  final List<PokeType> types;
+  final List<String> types;
   final String move;
   final PokeStatus status;
 
@@ -32,10 +31,7 @@ class PokemonModel {
         weight: double.parse(json['weight'].toString()),
         height: double.parse(json['height'].toString()),
         image: json['sprites']['other']["official-artwork"]["front_default"],
-        types: json['types']
-            .map((element) => PokeType(name: element['type']['name']))
-            .cast<PokeType>()
-            .toList() as List<PokeType>,
+        types: json['types'].map((element) => element['type']['name']).cast<String>().toList() as List<String>,
         move: json['moves'][0]['move']['name'].toString(),
         status: PokeStatus(
           life: double.parse(json['stats'][0]['base_stat'].toString()),

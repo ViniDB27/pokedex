@@ -1,5 +1,4 @@
 import './status_entity.dart';
-import './type_entity.dart';
 
 class Pokemon {
   final int id;
@@ -8,7 +7,7 @@ class Pokemon {
   final double weight;
   final double height;
   final String image;
-  final List<PokeType> types;
+  final List<String> types;
   final String move;
   final PokeStatus status;
 

@@ -13,11 +13,13 @@ class GetPokemonsForListImpl extends GetPokemonsForList {
   @override
   Future<Either<PokemonDomainException, List<Pokemon>>> call({
     int offset = 0,
-    int limit = 21,
+    int limit = 42,
+    String? type,
   }) async {
     return repository.getPokemons(
       offset: offset,
       limit: limit,
+      type: type,
     );
   }
 }

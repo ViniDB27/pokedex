@@ -16,6 +16,7 @@ class PokemonRepositoryImpl extends PokemonRepository {
   Future<Either<PokemonDomainException, List<Pokemon>>> getPokemons({
     int offset = 0,
     int limit = 21,
+    String? type,
   }) async {
     try {
       final response = await datasource.getPokemons(
@@ -23,9 +24,8 @@ class PokemonRepositoryImpl extends PokemonRepository {
         offset: offset,
       );
 
-      final List<Pokemon> pokemons = response
+      List<Pokemon> pokemons = response
           .map((pokemon) => PokemonModel.fromJson(pokemon).toEntity)
-          .cast<Pokemon>()
           .toList();
 
       return right(pokemons);
