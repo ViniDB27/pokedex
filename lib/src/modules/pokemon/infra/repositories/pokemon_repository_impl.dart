@@ -34,4 +34,31 @@ class PokemonRepositoryImpl extends PokemonRepository {
       return left(PokemonDomainException(error.toString()));
     }
   }
+
+  @override
+  Future<Either<PokemonDomainException, Pokemon>> getPokemonByName(
+      String name) async {
+    try {
+      final response = await datasource.getPokemonByName(name);
+
+      final pokemon = PokemonModel.fromJson(response).toEntity;
+
+      return right(pokemon);
+    } catch (error) {
+      return left(PokemonDomainException(error.toString()));
+    }
+  }
+  
+  @override
+  Future<Either<PokemonDomainException, Pokemon>> getPokemonById(int id) async {
+    try {
+      final response = await datasource.getPokemonById(id);
+
+      final pokemon = PokemonModel.fromJson(response).toEntity;
+
+      return right(pokemon);
+    } catch (error) {
+      return left(PokemonDomainException(error.toString()));
+    }
+  }
 }

@@ -9,4 +9,7 @@ abstract class PokemonRepository {
     int limit = 21,
     String? type,
   });
+
+  Future<Either<PokemonDomainException, Pokemon>> getPokemonByName(String name);
+  Future<Either<PokemonDomainException, Pokemon>> getPokemonById(int id);
 }

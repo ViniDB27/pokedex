@@ -37,4 +37,39 @@ void main() {
 
     expect(result.fold(id, id), isA<PokemonDomainException>());
   });
+  
+  test('Should return Pokemon if getPokemonByname execute with success', () async {
+    when(() => datasource.getPokemonByName("name")).thenAnswer((_) async=> pokemonJson);
+
+
+    final result = await repository.getPokemonByName("name");
+
+    expect(result.fold(id, id), isA<Pokemon>());
+  });
+ 
+  test('Should return PokemonDomainException if getPokemonByName execute without success', () async {
+    when(() => datasource.getPokemonByName("name")).thenThrow((_) => PokemonDomainException('Falha na request'));
+
+
+    final result = await repository.getPokemonByName("name");
+
+    expect(result.fold(id, id), isA<PokemonDomainException>());
+  });
+  test('Should return Pokemon if getPokemonById execute with success', () async {
+    when(() => datasource.getPokemonById(1)).thenAnswer((_) async=> pokemonJson);
+
+
+    final result = await repository.getPokemonById(1);
+
+    expect(result.fold(id, id), isA<Pokemon>());
+  });
+ 
+  test('Should return PokemonDomainException if getPokemonById execute without success', () async {
+    when(() => datasource.getPokemonById(1)).thenThrow((_) => PokemonDomainException('Falha na request'));
+
+
+    final result = await repository.getPokemonById(1);
+
+    expect(result.fold(id, id), isA<PokemonDomainException>());
+  });
 }

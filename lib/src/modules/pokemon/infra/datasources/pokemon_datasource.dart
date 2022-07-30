@@ -4,4 +4,6 @@ abstract class PokemonDatasource {
     int limit = 21,
     String? type,
   });
+  Future<Map<dynamic, dynamic>> getPokemonByName(String name);
+  Future<Map<dynamic, dynamic>> getPokemonById(int id);
 }

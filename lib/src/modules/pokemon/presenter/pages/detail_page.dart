@@ -219,21 +219,23 @@ class PokemonDetailPage extends StatelessWidget {
                             margin: const EdgeInsets.only(top: 30),
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             width: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "There is a plant seed on its back right from \nthe day this Pokémon is born. \nThe seed slowly grows larger.",
-                                  style: TextStyle(
-                                    fontFamily:
-                                        AppFonts.pokemonNameHomeCard.fontFamily,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    color: AppColors.darkGray,
+                            child: SingleChildScrollView(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "There is a plant seed on its back right from \nthe day this Pokémon is born. \nThe seed slowly grows larger.",
+                                    style: TextStyle(
+                                      fontFamily:
+                                          AppFonts.pokemonNameHomeCard.fontFamily,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      color: AppColors.darkGray,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                           Container(

@@ -30,37 +30,37 @@ final pokemon = Pokemon(
   status: status,
 );
 
-final List<Map<dynamic, dynamic>> pokemonListOfJson = [
-  {
-    'id': 1,
-    'name': "name",
-    'order': 1,
-    'height': 1,
-    'weight': 1,
-    'sprites': {
-      'other': {
-        'official-artwork': {
-          'front_default': 'image',
-        }
+final pokemonJson = {
+  'id': 1,
+  'name': "name",
+  'order': 1,
+  'height': 1,
+  'weight': 1,
+  'sprites': {
+    'other': {
+      'official-artwork': {
+        'front_default': 'image',
       }
+    }
+  },
+  'types': [
+    {
+      'type': {'name': 'fire'},
+    }
+  ],
+  'moves': [
+    {
+      'move': {'name': "bind"},
     },
-    'types': [
-      {
-        'type': {'name': 'fire'},
-      }
-    ],
-    'moves': [
-      {
-        'move': {'name': "bind"},
-      },
-    ],
-    'stats': [
-      {'base_stat': 1},
-      {'base_stat': 1},
-      {'base_stat': 1},
-      {'base_stat': 1},
-      {'base_stat': 1},
-      {'base_stat': 1},
-    ],
-  }
-];
+  ],
+  'stats': [
+    {'base_stat': 1},
+    {'base_stat': 1},
+    {'base_stat': 1},
+    {'base_stat': 1},
+    {'base_stat': 1},
+    {'base_stat': 1},
+  ],
+};
+
+final List<Map<dynamic, dynamic>> pokemonListOfJson = [pokemonJson];

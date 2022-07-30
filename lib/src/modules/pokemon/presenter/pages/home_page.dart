@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final searchController = TextEditingController();
+
   List<Pokemon> _pokemons = [];
+  bool isLoadingSearch = false;
   bool isLoading = false;
   String? error;
 
@@ -57,15 +62,28 @@ class _HomePageState extends State<HomePage> {
     context.read<PokemonStore>().listPokemons();
   }
 
+  void _loadMorePokemons() {
+    context.read<PokemonStore>().listPokemons(
+          offset: _pokemons.length,
+          type: selectedType == 'disable' ? null : selectedType,
+        );
+  }
+
+  void _searchPokemonByName() {
+    context.read<PokemonStore>().searchPokemonByName(searchController.text);
+  }
+
+  void _searchPokemonByRandomId() {
+    final random = Random().nextInt(905);
+    context.read<PokemonStore>().searchPokemonById(random);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final searchController = TextEditingController();
     final store = context.watch<PokemonStore>();
     final state = store.value;
 
     MediaQueryData queryData = MediaQuery.of(context);
-
-    Widget child = Container();
 
     if (state is LoadingPokemonState) {
       setState(() {
@@ -74,9 +92,17 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
+    if (state is LoadingSearchPokemonState) {
+      setState(() {
+        isLoadingSearch = true;
+        error = null;
+      });
+    }
+
     if (state is ErrorPokemonState) {
       setState(() {
         isLoading = false;
+        isLoadingSearch = false;
         error = state.message;
       });
     }
@@ -84,17 +110,22 @@ class _HomePageState extends State<HomePage> {
     if (state is SuccessPokemonState) {
       setState(() {
         isLoading = false;
+        isLoadingSearch = false;
         error = null;
 
         _pokemons = [..._pokemons, ...state.pokemons];
       });
     }
 
-    void _loadMorePokemons() {
-      context.read<PokemonStore>().listPokemons(
-            offset: _pokemons.length,
-            type: selectedType == 'disable' ? null : selectedType,
-          );
+    if (state is SuccessPokemonOnlyState) {
+      setState(() {
+        isLoadingSearch = false;
+        isLoading = false;
+        error = null;
+      });
+
+      searchController.clear();
+      Modular.to.pushReplacementNamed('/detail', arguments: state.pokemon);
     }
 
     return Scaffold(
@@ -129,21 +160,35 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 10),
-                  padding: const EdgeInsets.only(top: 12, left: 10),
+                  padding: const EdgeInsets.only(left: 10),
                   height: 30,
                   width: queryData.size.width - 20,
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: TextField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Search by name',
-                      hintStyle: AppFonts.searchText,
-                    ),
-                    style: AppFonts.searchText,
+                  child: Stack(
+                    alignment: AlignmentDirectional.centerStart,
+                    children: [
+                      TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Search by name',
+                          hintStyle: AppFonts.searchText,
+                        ),
+                        style: AppFonts.searchText,
+                        onSubmitted: (_) => _searchPokemonByName,
+                      ),
+                      Positioned(
+                        top: -10,
+                        right: 10,
+                        child: IconButton(
+                          onPressed: _searchPokemonByName,
+                          icon: const Icon(Icons.search),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Row(
@@ -177,26 +222,41 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: _searchPokemonByRandomId,
+                      child: const Text("Random Pokemon"),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
                 Expanded(
                   flex: 1,
                   child: Container(
                     color: Colors.transparent,
-                    child: error != null
-                        ? Text(error!)
-                        : InfiniteScrollGrid(
-                            scrollDirection: Axis.vertical,
-                            crossAxisSpacing: 5,
-                            mainAxisSpacing: 5,
-                            crossAxisCount: 3,
-                            onLoadingStart: selectedType == 'disable'
-                                ? (_) => _loadMorePokemons()
-                                : null,
-                            everythingLoaded:
-                                selectedType == 'disable' ? isLoading : true,
-                            children: _pokemons
-                                .map((pokemon) => PokemonCard(pokemon))
-                                .toList(),
-                          ),
+                    child: isLoadingSearch
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : error != null
+                            ? Text(error!)
+                            : InfiniteScrollGrid(
+                                scrollDirection: Axis.vertical,
+                                crossAxisSpacing: 5,
+                                mainAxisSpacing: 5,
+                                crossAxisCount: 3,
+                                onLoadingStart: selectedType == 'disable'
+                                    ? (_) => _loadMorePokemons()
+                                    : null,
+                                everythingLoaded: selectedType == 'disable'
+                                    ? isLoading
+                                    : true,
+                                children: _pokemons
+                                    .map((pokemon) => PokemonCard(pokemon))
+                                    .toList(),
+                              ),
                   ),
                 ),
               ],

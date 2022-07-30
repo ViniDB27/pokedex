@@ -15,7 +15,7 @@ class DetailHeader extends StatelessWidget {
   final Pokemon pokemon;
 
   goBack() {
-    Modular.to.pop();
+    Modular.to.pushReplacementNamed("/home");
   }
 
   @override

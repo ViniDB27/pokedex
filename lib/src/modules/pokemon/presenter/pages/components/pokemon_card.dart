@@ -17,7 +17,7 @@ class PokemonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Modular.to.pushNamed('/detail', arguments: pokemon);
+        Modular.to.pushReplacementNamed('/detail', arguments: pokemon);
       },
       child: Container(
         width: 110,

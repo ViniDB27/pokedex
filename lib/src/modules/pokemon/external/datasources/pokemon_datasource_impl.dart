@@ -27,12 +27,37 @@ class PokemonDatasourceImpl extends PokemonDatasource {
     final List<Map<dynamic, dynamic>> pokemons = [];
 
     for (var i = 0; i < results.length; i++) {
-      final pkmUrl = type != null ? results[i]['pokemon']['url'] : results[i]['url']; 
+      final pkmUrl =
+          type != null ? results[i]['pokemon']['url'] : results[i]['url'];
       final pokemonResponse = await dio.get(pkmUrl);
       final Map<dynamic, dynamic> pokemonBody = pokemonResponse.data;
       pokemons.add(pokemonBody);
     }
 
     return pokemons;
+  }
+
+  @override
+  Future<Map> getPokemonByName(String name) async {
+    try {
+      final pkmUrl = "$urlBase/pokemon/$name";
+      final pokemonResponse = await dio.get(pkmUrl);
+      final Map<dynamic, dynamic> pokemonBody = pokemonResponse.data;
+      return pokemonBody;
+    } catch (_) {
+      throw Exception("Pokemon not found");
+    }
+  }
+  
+  @override
+  Future<Map> getPokemonById(int id) async {
+    try {
+      final pkmUrl = "$urlBase/pokemon/$id";
+      final pokemonResponse = await dio.get(pkmUrl);
+      final Map<dynamic, dynamic> pokemonBody = pokemonResponse.data;
+      return pokemonBody;
+    } catch (_) {
+      throw Exception("Pokemon not found");
+    }
   }
 }
