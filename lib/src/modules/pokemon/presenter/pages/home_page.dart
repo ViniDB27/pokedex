@@ -188,8 +188,11 @@ class _HomePageState extends State<HomePage> {
                             crossAxisSpacing: 5,
                             mainAxisSpacing: 5,
                             crossAxisCount: 3,
-                            onLoadingStart: (_) => _loadMorePokemons(),
-                            everythingLoaded: isLoading,
+                            onLoadingStart: selectedType == 'disable'
+                                ? (_) => _loadMorePokemons()
+                                : null,
+                            everythingLoaded:
+                                selectedType == 'disable' ? isLoading : true,
                             children: _pokemons
                                 .map((pokemon) => PokemonCard(pokemon))
                                 .toList(),

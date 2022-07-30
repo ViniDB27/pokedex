@@ -13,19 +13,24 @@ class PokemonDatasourceImpl extends PokemonDatasource {
   Future<List<Map<dynamic, dynamic>>> getPokemons({
     int offset = 0,
     int limit = 21,
+    String? type,
   }) async {
-    final String url = "$urlBase/pokemon?offset=$offset&limit=$limit";
+    final String url = type != null
+        ? "$urlBase/type/$type?offset=$offset&limit=$limit"
+        : "$urlBase/pokemon?offset=$offset&limit=$limit";
 
     final response = await dio.get(url);
     final Map<String, dynamic> body = response.data;
-    final List<dynamic> results = body['results'];
+    final List<dynamic> results =
+        type != null ? body['pokemon'] : body['results'];
 
     final List<Map<dynamic, dynamic>> pokemons = [];
 
     for (var i = 0; i < results.length; i++) {
-      final pokemonResponse = await dio.get( results[i]['url']);
-      final Map<dynamic, dynamic> body = pokemonResponse.data;
-      pokemons.add(body);
+      final pkmUrl = type != null ? results[i]['pokemon']['url'] : results[i]['url']; 
+      final pokemonResponse = await dio.get(pkmUrl);
+      final Map<dynamic, dynamic> pokemonBody = pokemonResponse.data;
+      pokemons.add(pokemonBody);
     }
 
     return pokemons;

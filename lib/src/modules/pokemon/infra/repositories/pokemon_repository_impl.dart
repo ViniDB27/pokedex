@@ -22,6 +22,7 @@ class PokemonRepositoryImpl extends PokemonRepository {
       final response = await datasource.getPokemons(
         limit: limit,
         offset: offset,
+        type: type,
       );
 
       List<Pokemon> pokemons = response
