@@ -18,11 +18,10 @@ Uma pokedéx feita em Flutter usando arquitetura limpa e conceitos de SOLID.
 
 ## Um pouco sobre o projeto.
 
-> O projeto foi contruido usando conceitos de arquitetura limpa e SOLID, 
-> a minhas escolhdas para auxiliar na legibilidade e Manutenibilidade foram:
-> FLutter Modular foi usado para controle das rotas e injeção de dependencias 
-> atráves do bind.
-> Para gerenciamento de estados usei conceitos do Bloc (Busines Logic component) 
-> mão não fiz uso de nenhuma lib externa usando apenas o ValueNotifier.
-> obs: uma boa opção para esse gerenciamento também é usar a lib Flutter Bloc.
+> O projeto foi construído usando conceitos de arquitetura limpa e SOLID, 
+> as minhas lib 's escolhidas para auxiliar na legibilidade e Manutenibilidade foram.
+> FLutter Modular foi usado para controle das rotas e injeção de dependências através do bind.
+> Para gerenciamento de estados usei conceitos do Bloc (Business Logic component) 
+> mas não fiz uso de nenhuma lib externa usando apenas o ValueNotifier.
+> obs: uma boa opção para esse gerenciamento também é usar a lib Flutter Bloc
 
